@@ -6,7 +6,7 @@ import numpy as np
 
 from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, ELU, Dropout
-from keras.layers.convolutional import Convolution2D
+from keras.layers.convolutional import Convolution2D, Cropping2D
 
 image_labels = []
 image_names = []
@@ -17,7 +17,7 @@ with open('./data/driving_log.csv') as csvfile:
 	next(reader)
 	for line in reader:
 		for i in range(3):
-			image_names.append('./data/' + line[i].strip())
+			image_names.append('./data/IMG/' + line[i].strip().split('/')[-1])
 		steering_value = float(line[3])
 		image_labels.append(steering_value)
 		image_labels.append(steering_value + 0.1)
@@ -31,8 +31,12 @@ for i in range(len(image_names)):
 image_data = np.array(image_data)
 image_labels = np.array(image_labels)
 shape = image_data[0].shape
+
+
+#create the model : Comma.ai
 model = Sequential()
-model.add(Lambda(lambda x: x/127.5 - 1., input_shape=shape, output_shape=shape))
+model.add(Cropping2D(cropping=((70, 20), (0, 0)), input_shape=shape))
+model.add(Lambda(lambda x: x/127.5 - 1.))
 model.add(Convolution2D(16, 8, 8, subsample=(4, 4), border_mode="same"))
 model.add(ELU())
 model.add(Convolution2D(32, 5, 5, subsample=(2, 2), border_mode="same"))
