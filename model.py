@@ -14,25 +14,25 @@ image_labels = []
 image_names = []
 image_data = []
 
-with open('./data_2/driving_log.csv') as csvfile:
+with open('./examples/data/driving_log.csv') as csvfile:
 	reader = csv.reader(csvfile)
 	next(reader)
 	for line in reader:
 		for i in range(3):
-			image_names.append('./data_2/IMG/' + line[i].strip().split('/')[-1])
+			image_names.append('./examples/data/IMG/' + line[i].strip().split('/')[-1])
 		steering_value = float(line[3])
 		image_labels.append(steering_value)
-		image_labels.append(steering_value + 0.4)
-		image_labels.append(steering_value - 0.4) 
+		image_labels.append(steering_value + 0.2)
+		image_labels.append(steering_value - 0.2) 
 
 #reading images
 for i in range(len(image_names)):
 	image_data.append(mpimg.imread(image_names[i]))
 
 #flip images horizontally
-#for i in range(len(image_data)):
-#	image_data.append(cv2.flip(image_data[i], 0))
-#	image_labels.append(image_labels[i] * -1)
+for i in range(len(image_data)):
+	image_data.append(cv2.flip(image_data[i], 0))
+	image_labels.append(image_labels[i] * -1)
 
 image_data = np.array(image_data)
 image_labels = np.array(image_labels)
@@ -63,8 +63,8 @@ def get_comma_ai_model():
 #http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
 def get_nvidia_model():
 	model = Sequential()
-	#model.add(Cropping2D(cropping=((70, 20), (0, 0)), input_shape=shape))
-	model.add(Lambda(lambda x: x/127.5 - 1., input_shape=shape, output_shape=shape))
+	model.add(Cropping2D(cropping=((70, 20), (0, 0)), input_shape=shape))
+	model.add(Lambda(lambda x: x/127.5 - 1.))
 	model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu'))
 #	model.add(MaxPooling2D())
 	model.add(Convolution2D(36, 5, 5, subsample=(2, 2), activation='relu'))
@@ -80,10 +80,10 @@ def get_nvidia_model():
 #	model.add(Dropout(0.2))
 	model.add(Dense(50))
 	model.add(Activation('relu'))
-#	model.add(Dropout(0.3))
+	model.add(Dropout(0.3))
 	model.add(Dense(10))
 	model.add(Activation('relu'))
-#	model.add(Dropout(0.5))
+	model.add(Dropout(0.5))
 	model.add(Dense(1))
 	return model
 
