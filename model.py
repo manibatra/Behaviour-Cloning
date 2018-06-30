@@ -5,7 +5,7 @@ import matplotlib.image as mpimg
 import cv2
 import numpy as np
 
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Flatten, Dense, Lambda, ELU, Dropout, Activation
 from keras.layers.convolutional import Convolution2D, Cropping2D
 from keras.layers.pooling import MaxPooling2D
@@ -14,12 +14,12 @@ image_labels = []
 image_names = []
 image_data = []
 
-with open('./examples/data/driving_log.csv') as csvfile:
+with open('./track_2_data/driving_log.csv') as csvfile:
 	reader = csv.reader(csvfile)
 	next(reader)
 	for line in reader:
 		for i in range(3):
-			image_names.append('./examples/data/IMG/' + line[i].strip().split('/')[-1])
+			image_names.append('./track_2_data/IMG/' + line[i].strip().split('/')[-1])
 		steering_value = float(line[3])
 		image_labels.append(steering_value)
 		image_labels.append(steering_value + 0.2)
@@ -87,9 +87,10 @@ def get_nvidia_model():
 	model.add(Dense(1))
 	return model
 
-model = get_nvidia_model()
-model.compile(loss='mse', optimizer='adam')
+#model = get_nvidia_model()
+#model.compile(loss='mse', optimizer='adam')
+model = load_model("model_nvidia.h5")
 model.fit(image_data, image_labels, validation_split=0.2, shuffle=True, nb_epoch=5)
 
-model.save('model_nvidia.h5')
+model.save('model_nvidia_track2.h5')
 
