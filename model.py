@@ -14,17 +14,6 @@ image_labels = []
 image_names = []
 image_data = []
 
-with open('./track_2_data/driving_log.csv') as csvfile:
-	reader = csv.reader(csvfile)
-	next(reader)
-	for line in reader:
-		for i in range(3):
-			image_names.append('./track_2_data/IMG/' + line[i].strip().split('/')[-1])
-		steering_value = float(line[3])
-		image_labels.append(steering_value)
-		image_labels.append(steering_value + 0.2)
-		image_labels.append(steering_value - 0.2) 
-
 with open('./examples/data/driving_log.csv') as csvfile:
 	reader = csv.reader(csvfile)
 	next(reader)
