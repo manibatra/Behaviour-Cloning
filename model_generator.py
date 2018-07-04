@@ -102,7 +102,7 @@ def get_comma_ai_model():
 #http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
 def get_nvidia_model(regularizer):
 	model = Sequential()
-	model.add(Cropping2D(cropping=((70, 20), (0, 0)), input_shape=shape))
+	model.add(Cropping2D(cropping=((90, 20), (0, 0)), input_shape=shape))
 	model.add(Lambda(lambda x: x/127.5 - 1.))
 	model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu', W_regularizer=regularizer))
 	model.add(BatchNormalization())
@@ -121,14 +121,14 @@ def get_nvidia_model(regularizer):
 	model.add(Dense(100))
 	model.add(BatchNormalization())
 	model.add(Activation('relu'))
-	model.add(Dropout(0.3))
+	model.add(Dropout(0.5))
 	model.add(Dense(50))
 	model.add(BatchNormalization())
 	model.add(Activation('relu'))
-	model.add(Dropout(0.3))
+	#model.add(Dropout(0.3))
 	model.add(Dense(10))
 	model.add(Activation('relu'))
-	model.add(Dropout(0.5))
+	#model.add(Dropout(0.5))
 	model.add(Dense(1))
 	return model
 
