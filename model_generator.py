@@ -20,7 +20,7 @@ image_labels = []
 image_names = []
 image_data = []
 
-paths = ['./examples/data/', './track_2_data/', './patch/']
+paths = ['./examples/data/', './track_2_data/', './patch/', './']
 
 for path in paths:
 	with open(path + 'driving_log.csv') as csvfile:
@@ -102,7 +102,7 @@ def get_comma_ai_model():
 #http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
 def get_nvidia_model(regularizer):
 	model = Sequential()
-	model.add(Cropping2D(cropping=((90, 20), (0, 0)), input_shape=shape))
+	model.add(Cropping2D(cropping=((80, 20), (0, 0)), input_shape=shape))
 	model.add(Lambda(lambda x: x/127.5 - 1.))
 	model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu', W_regularizer=regularizer))
 	model.add(BatchNormalization())
@@ -125,7 +125,7 @@ def get_nvidia_model(regularizer):
 	model.add(Dense(50))
 	model.add(BatchNormalization())
 	model.add(Activation('relu'))
-	#model.add(Dropout(0.3))
+	#model.add(Dropout(0.2))
 	model.add(Dense(10))
 	model.add(Activation('relu'))
 	#model.add(Dropout(0.5))
@@ -137,6 +137,6 @@ model = get_nvidia_model(None)
 adam = optimizers.adam(lr=0.01)
 model.compile(loss='mse', optimizer=adam)
 #model = load_model("model_nvidia.h5")
-model.fit_generator(train_generator, samples_per_epoch=len(train_samples) * 2, validation_data=validation_generator, nb_val_samples=len(validation_samples) * 2, nb_epoch=50, callbacks=[stopping])
+model.fit_generator(train_generator, samples_per_epoch=len(train_samples) * 2, validation_data=validation_generator, nb_val_samples=len(validation_samples) * 2, nb_epoch=25, callbacks=[stopping])
 model.save('model_nvidia_track2.h5')
 
