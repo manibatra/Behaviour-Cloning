@@ -1,125 +1,179 @@
-# Behaviorial Cloning Project
 
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+# Behavioural Cloning
 
-Overview
 ---
-This repository contains starting files for the Behavioral Cloning Project.
 
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to clone driving behavior. You will train, validate and test a model using Keras. The model will output a steering angle to an autonomous vehicle.
+The goals  of this project are the following:
+* Use the simulator to collect data of a good driving behavior
+* Build, a convolution neural network in Keras that predicts steering angles from images
+* Train and validate the model with a training and validation set
+* Test that the model successfully drives around track one (potentially track 2) without leaving the road.
 
-We have provided a simulator where you can steer a car around a track for data collection. You'll use image data and steering angles to train a neural network and then use this model to drive the car autonomously around the track.
-
-We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Behavioral-Cloning-P3/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
-
-To meet specifications, the project will require submitting five files: 
-* model.py (script used to create and train the model)
-* drive.py (script to drive the car - feel free to modify this file)
-* model.h5 (a trained Keras model)
-* a report writeup file (either markdown or pdf)
-* video.mp4 (a video recording of your vehicle driving autonomously around the track for at least one full lap)
-
-This README file describes how to output the video in the "Details About Files In This Directory" section.
-
-Creating a Great Writeup
 ---
-A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/432/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
 
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
-The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior 
-* Design, train and validate a model that predicts a steering angle from image data
-* Use the model to drive the vehicle autonomously around the first track in the simulator. The vehicle should remain on the road for an entire loop around the track.
-* Summarize the results with a written report
-
-### Dependencies
-This lab requires:
-
-* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
-
-The lab enviroment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
-
-The following resources can be found in this github repository:
-* drive.py
-* video.py
-* writeup_template.md
-
-The simulator can be downloaded from the classroom. In the classroom, we have also provided sample data that you can optionally use to help train your model.
-
-## Details About Files In This Directory
-
-### `drive.py`
-
-Usage of `drive.py` requires you have saved the trained model as an h5 file, i.e. `model.h5`. See the [Keras documentation](https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model) for how to create this file using the following command:
-```sh
-model.save(filepath)
+## Usage 
+Once you have [Anaconda]() installed create the environment using the provided **environment.yml** file. Activate the created environment
+```
+conda env create -f environment.yml
+source activate carnd-term1
 ```
 
-Once the model has been saved, it can be used with drive.py using this command:
+Clone this project
 
-```sh
-python drive.py model.h5
+```
+git clone https://github.com/manibatra/Behaviour-Cloning.git
+cd Behaviour-Cloning
 ```
 
-The above command will load the trained model and use the model to make predictions on individual images in real-time and send the predicted angle back to the server via a websocket connection.
+Download the simulator and the sample data provided. 
+- [Simulator](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae4594_mac-sim.app/mac-sim.app.zip)
+- [Sample Data for track 1](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip) , [Corresponding log file](https://raw.githubusercontent.com/mithi/behavioral-cloning/master/data/driving_log.csv)
+- You will have to record data for track 2 using the simulator if you want to drive car on both tracks.
 
-Note: There is known local system's setting issue with replacing "," with "." when using drive.py. When this happens it can make predicted steering values clipped to max/min values. If this occurs, a known fix for this is to add "export LANG=en_US.utf8" to the bashrc file.
+Add path(s) to the data in the **model.py** file.  For e.g
 
-#### Saving a video of the autonomous agent
-
-```sh
-python drive.py model.h5 run1
+```
+paths = [‘./track_1_data/‘, ‘./track_2_data/‘, ‘./patch/‘]
 ```
 
-The fourth argument, `run1`, is the directory in which to save the images seen by the agent. If the directory already exists, it'll be overwritten.
+Train the model
 
-```sh
-ls run1
-
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_424.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_451.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_477.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_528.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_573.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_618.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_697.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_723.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_749.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_817.jpg
-...
+```
+python model.py
 ```
 
-The image file name is a timestamp of when the image was seen. This information is used by `video.py` to create a chronological video of the agent driving.
+Use the **drive.py** file to  predict the steering angle based on the trained model.
 
-### `video.py`
-
-```sh
-python video.py run1
+```
+python drive.py saved_model.h5
 ```
 
-Creates a video based on images found in the `run1` directory. The name of the video will be the name of the directory followed by `'.mp4'`, so, in this case the video will be `run1.mp4`.
+Select the track and **Autonomous Mode** in the simulator and enjoy autonomous driving. 
 
-Optionally, one can specify the FPS (frames per second) of the video:
+## Project Exploration
+### Dataset
 
-```sh
-python video.py run1 --fps 48
+The dataset used in this project were the images captured from driving around the tracks in the stimulator and the corresponding **steering angle** of the car during that time.  The images were **RGB** with dimensions of **160 x 320 x 3** ( height x width x channels) while the steering angle was in the range of [-1, 1]  with negative steering angles indicating steering counter clockwise to turn the car left. 
+
+At a point in time three images were captured. One from the center camera and one each from the left and right cameras providing a viewpoint from the left and right side of the car windshield respectively.  To adjust the steering angle for the images captured from the left and right  cameras a small adjustment was made in the steering angle. This was done by trial and error as the range of values was small enough. 
+
+All in all **54780** images were used. The data can further be broken down into the following categories : 
+
+- Track 1 data : **24108 images** ( provided by Udacity ) 
+- Track 2 data : **29355 images** ( two laps around the second track captured using the stimulator)
+- Corner driving on track 1 : **1137  images** ( driving around the corner on the first track to balance out the dataset a little bit)
+
+Following are the examples of the images captured on track 1 and track 2 from the left, center and right cameras. 
+
+
+<img src=“./examples/camera_angles.png”/>
+
+
+#### Preprocessing the data : 
+
+- **Horizontal Flipping** : To increase the amount of samples available to the network to train, each of the images was flipped horizontally and the steering angle was multiplied by **-1**. 
+
+<img src=“./examples/hor_flip.png”/>
+
+- **Color Channel** : The model was trained using an RGB image, a YUV image and just the **Y channel**. Out of these the best performance was achieved by using just the **Y channel**. The thinking about choosing the Y channel was based on the Traffic Sign Classification project I did recently where emphasis had to be put on the edges rather than the colors in the image and hence the model would generalise better in various environments with different backdrops. 
+- 
+<img src=“./examples/“color_channel.png”/>
+
+- **Cropping** : The images were also cropped by the model before training the network. The final dimensions of the images used were **60 x 320 x 1**. This was done to remove background elements such as the trees/sky/hood of the car and hence help the model generalise better on different tracks. 
+- 
+<img src=“./examples/cropped.png”/>
+
+### Training, Validation and Testing
+
+The data was randomly shuffled a training/validation split of 80/20 was carried out.  This left us with : 
+
+- Training Images : 87648
+- Validation Images : 21912
+
+No testing data was required as the model was tested directly by letting the car drive autonomously on the track. Two tracks were provided with the second track being much harder to drive on. So much so that in the end the model did a much better job of driving around the second track than I could. 
+
+
+### Model Architecture and Training Strategy
+
+#### Designing the model
+
+A couple of model designs were used as the basis for designing my model. The first model used was the one from the **Comma AI** team and the second model was based on the paper by the NVIDIA team. From the initial tests the model by the NVIDIA team performed better and was hence chosen as the basis for building my model. 
+
+#### Final Model Architecture
+
+The final model consisted of 4 convolutional layers ( instead of the 5 in the NVIDIA model)  with 5 x 5 filter sizes and filter depths ranging from 24 to 64. The 5th convolutional layer was removed as our images consisted of just one channel and did not have enough information subsequently to go through the 5th convolutional layer.
+
+The convolutional layers were followed by 3 dense layers and 1 final output layer. All the layers used **RELU** activation. 
+
+**Adam** optimiser with a learning rate of **0.01** was used to train the model. 
+
+```
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+cropping2d_1 (Cropping2D)        (None, 70, 320, 1)    0           cropping2d_input_1[0][0]
+____________________________________________________________________________________________________
+lambda_1 (Lambda)                (None, 70, 320, 1)    0           cropping2d_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_1 (Convolution2D)  (None, 33, 158, 24)   624         lambda_1[0][0]
+____________________________________________________________________________________________________
+batchnormalization_1 (BatchNorma (None, 33, 158, 24)   96          convolution2d_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_2 (Convolution2D)  (None, 15, 77, 36)    21636       batchnormalization_1[0][0]
+____________________________________________________________________________________________________
+batchnormalization_2 (BatchNorma (None, 15, 77, 36)    144         convolution2d_2[0][0]
+____________________________________________________________________________________________________
+convolution2d_3 (Convolution2D)  (None, 6, 37, 48)     43248       batchnormalization_2[0][0]
+____________________________________________________________________________________________________
+batchnormalization_3 (BatchNorma (None, 6, 37, 48)     192         convolution2d_3[0][0]
+____________________________________________________________________________________________________
+convolution2d_4 (Convolution2D)  (None, 4, 35, 64)     27712       batchnormalization_3[0][0]
+____________________________________________________________________________________________________
+batchnormalization_4 (BatchNorma (None, 4, 35, 64)     256         convolution2d_4[0][0]
+____________________________________________________________________________________________________
+convolution2d_5 (Convolution2D)  (None, 2, 33, 64)     36928       batchnormalization_4[0][0]
+____________________________________________________________________________________________________
+batchnormalization_5 (BatchNorma (None, 2, 33, 64)     256         convolution2d_5[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 4224)          0           batchnormalization_5[0][0]
+____________________________________________________________________________________________________
+dense_1 (Dense)                  (None, 100)           422500      flatten_1[0][0]
+____________________________________________________________________________________________________
+batchnormalization_6 (BatchNorma (None, 100)           400         dense_1[0][0]
+____________________________________________________________________________________________________
+activation_1 (Activation)        (None, 100)           0           batchnormalization_6[0][0]
+____________________________________________________________________________________________________
+dropout_1 (Dropout)              (None, 100)           0           activation_1[0][0]
+____________________________________________________________________________________________________
+dense_2 (Dense)                  (None, 50)            5050        dropout_1[0][0]
+____________________________________________________________________________________________________
+batchnormalization_7 (BatchNorma (None, 50)            200         dense_2[0][0]
+____________________________________________________________________________________________________
+activation_2 (Activation)        (None, 50)            0           batchnormalization_7[0][0]
+____________________________________________________________________________________________________
+dense_3 (Dense)                  (None, 10)            510         activation_2[0][0]
+____________________________________________________________________________________________________
+activation_3 (Activation)        (None, 10)            0           dense_3[0][0]
+____________________________________________________________________________________________________
+dense_4 (Dense)                  (None, 1)             11          activation_3[0][0]
+====================================================================================================
+Total params: 559,763
+Trainable params: 558,991
+Non-trainable params: 772
 ```
 
-Will run the video at 48 FPS. The default FPS is 60.
 
-#### Why create a video
+###### Preventing overfitting : 
+A number of techniques were tried to prevent overfitting: 
+	- **Dropout Layers** : At first dropout layers were added after all the dense layers. However this lead to excessive loss of information. Subsequent removal of the dropout layers from the last two dense layers greatly increased the accuracy of the model. Hence in the final model the dropout layer was added only after the largest dense layer.
+	- **L2 Regularization** : L2 regularisation was tried to prevent overfitting but using it lead to much slower convergence and longer training times with not much increase in accuracy. Hence L2 Regularization was not used in the final model.
+	- **Batch Normalization** : A batch normalization layer was added after every layer except the last two. This led to the greatest increase in accuracy and helped the model generalise better. Batch normalization also allowed us to increase the learning rate by a factor of 10 and hence led to faster training times. 
+	- **Early Stopping** : Early stopping was used to stop training of the model once it started overfitting. This can be easily done in **Keras** by providing a *callback*. 
 
-1. It's been noted the simulator might perform differently based on the hardware. So if your model drives succesfully on your machine it might not on another machine (your reviewer). Saving a video is a solid backup in case this happens.
-2. You could slightly alter the code in `drive.py` and/or `video.py` to create a video of what your model sees after the image is processed (may be helpful for debugging).
+In the end the model trained for **12 epochs**, terminating early due to *early stopping*. 
 
-### Tips
-- Please keep in mind that training images are loaded in BGR colorspace using cv2 while drive.py load images in RGB to predict the steering angles.
+### Conclusion
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+<img src=“./examples/track1”> <img src=“./examples/track2”>
+
+In the end the model was able to generalise well enough to drive well on both the tracks endlessly without any manual intervention.  The model can be improved further by augmenting the data more, collecting more data and trying other architectures. Despite understanding everything happening under the “hood” working on the project felt nothing short of magical and makes me feel very excited about the future of autonomous driving. 
 
