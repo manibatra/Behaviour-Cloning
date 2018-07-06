@@ -126,6 +126,7 @@ Non-trainable params: 772
 #### Preventing overfitting : 
 
 A number of techniques were tried to prevent overfitting: 
+
 	- **Dropout Layers** : At first dropout layers were added after all the dense layers. However this lead to excessive loss of information. Subsequent removal of the dropout layers from the last two dense layers greatly increased the accuracy of the model. Hence in the final model the dropout layer was added only after the largest dense layer.
 	- **L2 Regularization** : L2 regularisation was tried to prevent overfitting but using it lead to much slower convergence and longer training times with not much increase in accuracy. Hence L2 Regularization was not used in the final model.
 	- **Batch Normalization** : A batch normalization layer was added after every layer except the last two. This led to the greatest increase in accuracy and helped the model generalise better. Batch normalization also allowed us to increase the learning rate by a factor of 10 and hence led to faster training times. 
