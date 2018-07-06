@@ -1,17 +1,17 @@
 
-# Behavioural Cloning
+# Behaviour Cloning
 
----
 
 The goals  of this project are the following:
-* Use the simulator to collect data of a good driving behavior
-* Build, a convolution neural network in Keras that predicts steering angles from images
-* Train and validate the model with a training and validation set
+* Use the simulator to collect data of a good driving behavior.
+* Build, a convolution neural network in Keras that predicts steering angles from images.
+* Train and validate the model with a training and validation set.
 * Test that the model successfully drives around track one (potentially track 2) without leaving the road.
 
----
 
 ## Project Exploration
+
+
 ### Dataset
 
 The dataset used in this project were the images captured from driving around the tracks in the stimulator and the corresponding **steering angle** of the car during that time.  The images were **RGB** with dimensions of **160 x 320 x 3** ( height x width x channels) while the steering angle was in the range of [-1, 1]  with negative steering angles indicating steering counter clockwise to turn the car left. 
@@ -127,16 +127,20 @@ Non-trainable params: 772
 
 A number of techniques were tried to prevent overfitting: 
 
-	- **Dropout Layers** : At first dropout layers were added after all the dense layers. However this lead to excessive loss of information. Subsequent removal of the dropout layers from the last two dense layers greatly increased the accuracy of the model. Hence in the final model the dropout layer was added only after the largest dense layer.
-	- **L2 Regularization** : L2 regularisation was tried to prevent overfitting but using it lead to much slower convergence and longer training times with not much increase in accuracy. Hence L2 Regularization was not used in the final model.
-	- **Batch Normalization** : A batch normalization layer was added after every layer except the last two. This led to the greatest increase in accuracy and helped the model generalise better. Batch normalization also allowed us to increase the learning rate by a factor of 10 and hence led to faster training times. 
-	- **Early Stopping** : Early stopping was used to stop training of the model once it started overfitting. This can be easily done in **Keras** by providing a *callback*. 
+
+- **Dropout Layers** : At first dropout layers were added after all the dense layers. However this lead to excessive loss of information. Subsequent removal of the dropout layers from the last two dense layers greatly increased the accuracy of the model. Hence in the final model the dropout layer was added only after the largest dense layer.
+
+- **L2 Regularization** : L2 regularisation was tried to prevent overfitting but using it lead to much slower convergence and longer training times with not much increase in accuracy. Hence L2 Regularization was not used in the final model.
+
+- **Batch Normalization** : A batch normalization layer was added after every layer except the last two. This led to the greatest increase in accuracy and helped the model generalise better. Batch normalization also allowed us to increase the learning rate by a factor of 10 and hence led to faster training times.
+
+- **Early Stopping** : Early stopping was used to stop training of the model once it started overfitting. This can be easily done in **Keras** by providing a *callback*. 
 
 In the end the model trained for **12 epochs**, terminating early due to *early stopping*. 
 
 ### Conclusion
 
-<img src=“./examples/track1”> <img src=“./examples/track2”>
+<img src=“./examples/track1.gif” width="200"> <img src=“./examples/track2.gif” width="200">
 
 In the end the model was able to generalise well enough to drive well on both the tracks endlessly without any manual intervention.  The model can be improved further by augmenting the data more, collecting more data and trying other architectures. Despite understanding everything happening under the “hood” working on the project felt nothing short of magical and makes me feel very excited about the future of autonomous driving. 
 
