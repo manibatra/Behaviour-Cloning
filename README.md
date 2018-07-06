@@ -37,11 +37,11 @@ Following are the examples of the images captured on track 1 and track 2 from th
 <img src="./examples/hor_flip.png"/>
 
 - **Color Channel** : The model was trained using an RGB image, a YUV image and just the **Y channel**. Out of these the best performance was achieved by using just the **Y channel**. The thinking about choosing the Y channel was based on the Traffic Sign Classification project I did recently where emphasis had to be put on the edges rather than the colors in the image and hence the model would generalise better in various environments with different backdrops. 
-- 
-<img src="./examples/“color_channel.png"/>
+
+<img src="./examples/color_channel.png"/>
 
 - **Cropping** : The images were also cropped by the model before training the network. The final dimensions of the images used were **60 x 320 x 1**. This was done to remove background elements such as the trees/sky/hood of the car and hence help the model generalise better on different tracks. 
-- 
+
 <img src="./examples/cropped.png"/>
 
 ### Training, Validation and Testing
@@ -58,7 +58,7 @@ No testing data was required as the model was tested directly by letting the car
 
 #### Designing the model
 
-A couple of model designs were used as the basis for designing my model. The first model used was the one from the **Comma AI** team and the second model was based on the paper by the NVIDIA team. From the initial tests the model by the NVIDIA team performed better and was hence chosen as the basis for building my model. 
+A couple of model designs were used as the basis for designing my model. The first model used was the one from the **[Comma AI](https://github.com/commaai/research/blob/master/train_steering_model.py)** team and the second model was based on the **[paper](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)** by the NVIDIA team. From the initial tests the model by the NVIDIA team performed better and was hence chosen as the basis for building my model. 
 
 #### Final Model Architecture
 
