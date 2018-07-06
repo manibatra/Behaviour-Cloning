@@ -11,6 +11,9 @@ The goals  of this project are the following:
 
 ## Project Exploration
 
+`skynet driving the car`
+
+<img src="./examples/track1.gif" width="320"> <img src="./examples/track2.gif" width="320">
 
 ### Dataset
 
@@ -140,7 +143,7 @@ In the end the model trained for **12 epochs**, terminating early due to *early 
 
 ### Conclusion
 
-<img src="./examples/track1.gif" width="320"> <img src="./examples/track2.gif" width="320">
+
 
 In the end the model was able to generalise well enough to drive well on both the tracks endlessly without any manual intervention.  The model can be improved further by augmenting the data more, collecting more data and trying other architectures. Despite understanding everything happening under the “hood” working on the project felt nothing short of magical and makes me feel very excited about the future of autonomous driving. 
 
