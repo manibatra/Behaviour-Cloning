@@ -11,45 +11,6 @@ The goals  of this project are the following:
 
 ---
 
-## Usage 
-Once you have [Anaconda]() installed create the environment using the provided **environment.yml** file. Activate the created environment
-```
-conda env create -f environment.yml
-source activate carnd-term1
-```
-
-Clone this project
-
-```
-git clone https://github.com/manibatra/Behaviour-Cloning.git
-cd Behaviour-Cloning
-```
-
-Download the simulator and the sample data provided. 
-- [Simulator](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae4594_mac-sim.app/mac-sim.app.zip)
-- [Sample Data for track 1](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip) , [Corresponding log file](https://raw.githubusercontent.com/mithi/behavioral-cloning/master/data/driving_log.csv)
-- You will have to record data for track 2 using the simulator if you want to drive car on both tracks.
-
-Add path(s) to the data in the **model.py** file.  For e.g
-
-```
-paths = [‘./track_1_data/‘, ‘./track_2_data/‘, ‘./patch/‘]
-```
-
-Train the model
-
-```
-python model.py
-```
-
-Use the **drive.py** file to  predict the steering angle based on the trained model.
-
-```
-python drive.py saved_model.h5
-```
-
-Select the track and **Autonomous Mode** in the simulator and enjoy autonomous driving. 
-
 ## Project Exploration
 ### Dataset
 
@@ -66,22 +27,22 @@ All in all **54780** images were used. The data can further be broken down into 
 Following are the examples of the images captured on track 1 and track 2 from the left, center and right cameras. 
 
 
-<img src=“./examples/camera_angles.png”/>
+<img src="./examples/camera_angles.png"/>
 
 
 #### Preprocessing the data : 
 
 - **Horizontal Flipping** : To increase the amount of samples available to the network to train, each of the images was flipped horizontally and the steering angle was multiplied by **-1**. 
 
-<img src=“./examples/hor_flip.png”/>
+<img src="./examples/hor_flip.png"/>
 
 - **Color Channel** : The model was trained using an RGB image, a YUV image and just the **Y channel**. Out of these the best performance was achieved by using just the **Y channel**. The thinking about choosing the Y channel was based on the Traffic Sign Classification project I did recently where emphasis had to be put on the edges rather than the colors in the image and hence the model would generalise better in various environments with different backdrops. 
 - 
-<img src=“./examples/“color_channel.png”/>
+<img src="./examples/“color_channel.png"/>
 
 - **Cropping** : The images were also cropped by the model before training the network. The final dimensions of the images used were **60 x 320 x 1**. This was done to remove background elements such as the trees/sky/hood of the car and hence help the model generalise better on different tracks. 
 - 
-<img src=“./examples/cropped.png”/>
+<img src="./examples/cropped.png"/>
 
 ### Training, Validation and Testing
 
@@ -176,4 +137,46 @@ In the end the model trained for **12 epochs**, terminating early due to *early 
 <img src=“./examples/track1”> <img src=“./examples/track2”>
 
 In the end the model was able to generalise well enough to drive well on both the tracks endlessly without any manual intervention.  The model can be improved further by augmenting the data more, collecting more data and trying other architectures. Despite understanding everything happening under the “hood” working on the project felt nothing short of magical and makes me feel very excited about the future of autonomous driving. 
+
+---
+
+
+## Usage 
+Once you have [Anaconda]() installed create the environment using the provided **environment.yml** file. Activate the created environment
+```
+conda env create -f environment.yml
+source activate carnd-term1
+```
+
+Clone this project
+
+```
+git clone https://github.com/manibatra/Behaviour-Cloning.git
+cd Behaviour-Cloning
+```
+
+Download the simulator and the sample data provided. 
+- [Simulator](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae4594_mac-sim.app/mac-sim.app.zip)
+- [Sample Data for track 1](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip) , [Corresponding log file](https://raw.githubusercontent.com/mithi/behavioral-cloning/master/data/driving_log.csv)
+- You will have to record data for track 2 using the simulator if you want to drive car on both tracks.
+
+Add path(s) to the data in the **model.py** file.  For e.g
+
+```
+paths = [‘./track_1_data/‘, ‘./track_2_data/‘, ‘./patch/‘]
+```
+
+Train the model
+
+```
+python model.py
+```
+
+Use the **drive.py** file to  predict the steering angle based on the trained model.
+
+```
+python drive.py saved_model.h5
+```
+
+Select the track and **Autonomous Mode** in the simulator and enjoy autonomous driving. 
 
